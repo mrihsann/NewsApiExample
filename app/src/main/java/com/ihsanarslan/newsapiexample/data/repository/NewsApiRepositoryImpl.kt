@@ -16,4 +16,9 @@ class NewsApiRepositoryImpl @Inject constructor(
 
     }
 
+    fun topHeadlines(category : String) : Flow<Root> = flow {
+        val data = newsApi.topHeadlines(category = category)
+        emit(data)
+    }
+
 }
