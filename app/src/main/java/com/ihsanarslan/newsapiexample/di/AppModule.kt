@@ -1,5 +1,8 @@
 package com.ihsanarslan.newsapiexample.di
 
+import com.ihsanarslan.newsapiexample.data.remote.NewsApi
+import com.ihsanarslan.newsapiexample.data.repository.NewsApiRepositoryImpl
+import com.ihsanarslan.newsapiexample.domain.usecase.GetEverythingUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,11 +33,23 @@ object NetworkModule {
             .build()
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideNewsApiService(retrofit: Retrofit): NewsApiService {
-//        return retrofit.create(NewsApiService::class.java)
-//    }
+    @Provides
+    @Singleton
+    fun provideNewsApi(retrofit: Retrofit) : NewsApi {
+        return retrofit.create(NewsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsApiRepository(newsApi: NewsApi) : NewsApiRepositoryImpl {
+        return NewsApiRepositoryImpl(newsApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetEverythingUseCase(newsApiRepositoryImpl: NewsApiRepositoryImpl) : GetEverythingUseCase {
+        return GetEverythingUseCase(newsApiRepositoryImpl)
+    }
 
 
 }
