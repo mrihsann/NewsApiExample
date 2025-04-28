@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.http.Query
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,12 +24,12 @@ class HomeScreenViewModel @Inject constructor(
         get() = _allArticles.asStateFlow()
 
     init {
-        topHeadlines()
+        getEverything()
     }
 
-    fun getEverything() {
+    fun getEverything(query: String = "bitcoin") {
         viewModelScope.launch {
-            getEverythingUseCase.invoke().collect {
+            getEverythingUseCase.invoke(query).collect {
                 _allArticles.value = it.articles
             }
         }

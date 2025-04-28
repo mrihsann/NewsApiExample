@@ -28,11 +28,12 @@ fun HomeScreen(){
                     value = category.value,
                     onValueChange = {
                         category.value = it
+                        viewModel.getEverything(it)
                     }
                 )
                 Button(
                     onClick = {
-                        viewModel.topHeadlines(category.value)
+                        viewModel.getEverything(category.value)
                     }
                 ) {
                     Text("Getir")
